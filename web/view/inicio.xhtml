@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>COOPERATIVA</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+            <h:form rendered="#{inicioBean.VerificarSesion()}">
+
+                <p:growl id="mensaje" autoUpdate="false" severity="info, fatal" showSummary="false" showDetail="true"/>
+                <p:layout fullPage="true">
+
+
+                    <p:layoutUnit position="north" size="50" resizable="false"  collapsible="false" style="background-color: orange; color: orange">
+                        <p:commandButton icon="iu-icon-check" value="Cerrar sesion" 
+                                         action="#{inicioBean.CerrarSesion()}" />
+                        BIENVENIDO COOPERATIVA NN
+                        <p:outputLabel value=""/>
+
+
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="south" size="50" resizable="true" closable="true" collapsible="true" style="background-color: blue; color: blue">
+                        @COOPERATIVA.COM - 2020
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="west" size="175" header="Menú" collapsible="false" style="background-color: orange; color: orange ; appearance: menu">
+                        <p:selectOneMenu id="menu" value="#{inicioBean.seleccionmenu}" >
+                            <f:selectItem itemLabel="-- Seleccione --" itemValue="A"/>
+                            <f:selectItem itemLabel="Cuentas" itemValue="CU"/>
+                            <f:selectItem itemLabel="Movimientos" itemValue="M"/>
+                            <f:selectItem itemLabel="Transferir" itemValue="T"/>
+                            <f:selectItem itemLabel="Consignar" itemValue="CO"/>
+                            <f:selectItem itemLabel="Retirar" itemValue="R"/>
+                            <f:selectItem itemLabel="Registrar cuenta" itemValue="RC"/>
+                            <f:ajax event="change" execute="@this" render="menuselection" />
+                        </p:selectOneMenu>
+
+                    </p:layoutUnit>
+
+                    <p:layoutUnit  position="center">
+                        <h:panelGroup id="menuselection"> 
+                            <p:fieldset legend="Inicio" rendered="#{inicioBean.seleccionmenu eq 'A'}">
+
+                                <h2> Bienvenido Sr(a).</h2>
+
+                            </p:fieldset>
+                            <p:fieldset  legend="Cuentas" rendered="#{inicioBean.seleccionmenu eq 'CU'}">
+
+                                <p:dataTable id="cuentastbl" value="#{inicioBean.listacuentas}" var="cue">
+                                    <p:column>
+                                        <f:facet name="header">Numero</f:facet>
+                                        <p:outputLabel value="#{cue.numerocuenta}"/>
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">Moneda</f:facet>
+                                        <p:outputLabel value="#{cue.coop$Moneda.descripcion}"/>
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">Saldo</f:facet>
+                                        <p:outputLabel value="#{cue.saldo}"/>
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">Eliminar</f:facet>
+                                        <p:commandButton update="cuentastbl" value="Eliminar" actionListener="#{inicioBean.EliminarCuenta()}"> 
+                                            <f:setPropertyActionListener target="#{inicioBean.cuenta}" value="#{cue}"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:fieldset>
+
+                            <p:fieldset legend="Movimientos" rendered="#{inicioBean.seleccionmenu eq 'M'}">
+
+                                <p:dataTable value="#{inicioBean.listamovimientos}" var="mov">
+                                    <p:column>
+                                        <f:facet name="header">Cuenta</f:facet>
+                                        <p:outputLabel value="#{mov.coop$Cuenta.numerocuenta}"/>
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">Tipo movimiento</f:facet>
+                                        <p:outputLabel value="#{mov.coop$Tipomovimiento.descripcion}"/>
+                                    </p:column> 
+                                    <p:column>
+                                        <f:facet name="header">Valor</f:facet>
+                                        <p:outputLabel value="#{mov.valor}"/>
+                                    </p:column> 
+                                </p:dataTable>
+                            </p:fieldset>
+
+                            <p:fieldset legend="Transferencia" rendered="#{inicioBean.seleccionmenu eq 'T'}">
+                                <h:panelGrid columns="3" id="pgtransferir">
+                                    <p:outputLabel for="cuentao" value="Cuenta origen"/>
+                                    <p:inputText id="cuentao" value="#{inicioBean.cuentaorigen}" required="true" requiredMessage="Debe ingresar cuenta origen"/>
+                                    <p:message for="cuentao"/>
+                                    <p:outputLabel for="valor" value="Valor a transferir"/>
+                                    <p:inputText id="valor" value="#{inicioBean.valor}" required="true" requiredMessage="Debe ingresar un valor"/>
+                                    <p:message for="valor"/>
+                                    <p:outputLabel for="ncd" value="Numero cuenta destino"/>
+                                    <p:inputText id="ncd" value="#{inicioBean.cuentadestino}" required="true" requiredMessage="Debe ingresar cuenta destino"/>
+                                    <p:message for="ncd"/>
+
+                                </h:panelGrid>   
+                                <p:commandButton icon="iu-icon-check" value="Transferir" 
+                                                 update="pgtransferir,mensaje"
+                                                 actionListener="#{inicioBean.RegistrarTransferencia()}"/>
+                            </p:fieldset>
+
+                            <p:fieldset legend="Consignacion" rendered="#{inicioBean.seleccionmenu eq 'CO'}">
+                                <h:panelGrid columns="3" id="pgconsignar">
+                                    <p:outputLabel for="ncd" value="Numero cuenta destino"/>
+                                    <p:inputText id="cdest" value="#{inicioBean.cuentadestino}" required="true" requiredMessage="Debe ingresar cuenta destino"/>
+                                    <p:message for="ncd"/>
+                                    <p:outputLabel for="valor" value="Valor a transferir"/>
+                                    <p:inputText id="valorc" value="#{inicioBean.valor}" required="true" requiredMessage="Debe ingresar un valor"/>
+                                    <p:message for="valor"/>
+                                </h:panelGrid>   
+                                <p:commandButton icon="iu-icon-check" value="Consignar" 
+                                                 update="pgconsignar,mensaje"
+                                                 actionListener="#{inicioBean.RegistrarConsignacion()}"/>
+                            </p:fieldset>
+
+                            <p:fieldset legend="Retiro" rendered="#{inicioBean.seleccionmenu eq 'R'}">
+                                <h:panelGrid columns="3" id="pgretirar">
+                                    <p:outputLabel for="ncd" value="Numero cuenta origen"/>
+                                    <p:inputText id="cdr" value="#{inicioBean.cuentaorigen}" required="true" requiredMessage="Debe ingresar cuenta origen"/>
+                                    <p:message for="ncd"/>
+                                    <p:outputLabel for="valor" value="Valor a transferir"/>
+                                    <p:inputText id="valorr" value="#{inicioBean.valor}" required="true" requiredMessage="Debe ingresar un valor"/>
+                                    <p:message for="valor"/>
+                                </h:panelGrid>   
+                                <p:commandButton icon="iu-icon-check" value="Consignar" 
+                                                 update="pgretirar,mensaje"
+                                                 actionListener="#{inicioBean.RegistrarRetiro()}"/>
+                            </p:fieldset>
+
+                            <p:fieldset legend="Registrar cuenta" rendered="#{inicioBean.seleccionmenu eq 'RC'}">
+                                <h:panelGrid columns="3" id="pgcuentar">
+                                    <p:outputLabel value="Tipo moneda"/>
+                                    <p:selectOneMenu id="tipomoneda" value="#{inicioBean.tipomoneda.idmoneda}" required="true" requiredMessage="Debe seleccionar tipo de moneda">
+                                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
+                                        <f:selectItems value="#{inicioBean.listatipomoneda}"/>
+                                    </p:selectOneMenu>
+                                    <p:message for="tipomoneda"/>
+                                    <p:outputLabel for="s" value="Saldo inicial"/>
+                                    <p:inputText id="s" value="#{inicioBean.cuenta.saldo}" required="true" requiredMessage="Debe ingresar saldo"/>
+                                    <p:message for="s"/>
+                                </h:panelGrid>   
+                                <p:commandButton icon="iu-icon-check" value="Registrar" 
+                                                 update="pgcuentar,mensaje"
+                                                 actionListener="#{inicioBean.RegistrarCuenta()}"/>
+                            </p:fieldset>
+
+                        </h:panelGroup> 
+
+                    </p:layoutUnit>
+
+                </p:layout>
+            </h:form>>
+        </h:body>
+
+    </f:view>
+</html>

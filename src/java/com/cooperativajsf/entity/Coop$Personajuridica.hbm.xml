@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2/05/2021 09:42:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooperativajsf.entity.Coop$Personajuridica" table="COOP$_PERSONAJURIDICA" schema="SYSTEM" optimistic-lock="version">
+        <id name="nit" type="string">
+            <column name="NIT" length="10" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="coop$Razonsocial" class="com.cooperativajsf.entity.Coop$Razonsocial" fetch="join">
+            <column name="IDRAZONSOCIAL" precision="22" scale="0" />
+        </many-to-one>
+        <property name="anofundacion" type="big_decimal">
+            <column name="ANOFUNDACION" precision="22" scale="0" />
+        </property>
+        <one-to-one name="persona" cascade="all" fetch="join"/>
+    </class>
+</hibernate-mapping>

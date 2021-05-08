@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2/05/2021 09:42:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooperativajsf.entity.Coop$Cuenta" table="COOP$_CUENTA" schema="SYSTEM" optimistic-lock="version">
+        <id name="numerocuenta" type="string">
+            <column name="NUMEROCUENTA" length="12" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="coop$Persona" class="com.cooperativajsf.entity.Coop$Persona" fetch="join">
+            <column name="DOCUMENTO" length="10" />
+        </many-to-one>
+        <many-to-one name="coop$Moneda" class="com.cooperativajsf.entity.Coop$Moneda" fetch="join">
+            <column name="IDMONEDA" precision="22" scale="0" />
+        </many-to-one>
+        <property name="saldo" type="big_decimal">
+            <column name="SALDO" precision="22" scale="0" />
+        </property>
+        <set name="coop$Movimientos" table="COOP$_MOVIMIENTO" inverse="true" lazy="true" fetch="join">
+            <key>
+                <column name="NUMEROCUENTA" length="12" />
+            </key>
+            <one-to-many class="com.cooperativajsf.entity.Coop$Movimiento" />
+        </set>
+    </class>
+</hibernate-mapping>

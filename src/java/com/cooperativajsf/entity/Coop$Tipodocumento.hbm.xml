@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2/05/2021 09:42:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooperativajsf.entity.Coop$Tipodocumento" table="COOP$_TIPODOCUMENTO" schema="SYSTEM" optimistic-lock="version">
+        <id name="idtipodocumento" type="big_decimal">
+            <column name="IDTIPODOCUMENTO" precision="22" scale="0" />
+            <generator class="sequence" >
+           <param name="sequence">AutoIdTDocumento</param>
+            </generator>
+        </id>
+        <property name="descripcion" type="string">
+            <column name="DESCRIPCION" length="50" />
+        </property>
+        <set name="coop$Personanaturals" table="COOP$_PERSONANATURAL" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TIPODOCUMENTO" precision="22" scale="0" />
+            </key>
+            <one-to-many class="com.cooperativajsf.entity.Coop$Personanatural" />
+        </set>
+    </class>
+</hibernate-mapping>

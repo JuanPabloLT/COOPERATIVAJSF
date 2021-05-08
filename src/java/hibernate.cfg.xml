@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:XE</property>
+        <property name="hibernate.connection.username">system</property>
+        <property name="hibernate.connection.password">+London.2018</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <mapping resource="com/cooperativajsf/entity/Coop$Persona.hbm.xml"/>
+        <mapping resource="com/cooperativajsf/entity/Coop$Personanatural.hbm.xml"/>
+        <mapping resource="com/cooperativajsf/entity/Coop$Tipomovimiento.hbm.xml"/>
+        <mapping resource="com/cooperativajsf/entity/Coop$Logueopersona.hbm.xml"/>
+        <mapping resource="com/cooperativajsf/entity/Coop$Razonsocial.hbm.xml"/>
+        <mapping resource="com/cooperativajsf/entity/Coop$Movimiento.hbm.xml"/>
+        <mapping resource="com/cooperativajsf/entity/Coop$Tipodocumento.hbm.xml"/>
+        <mapping resource="com/cooperativajsf/entity/Coop$Cuenta.hbm.xml"/>
+        <mapping resource="com/cooperativajsf/entity/Coop$Personajuridica.hbm.xml"/>
+        <mapping resource="com/cooperativajsf/entity/Coop$Moneda.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

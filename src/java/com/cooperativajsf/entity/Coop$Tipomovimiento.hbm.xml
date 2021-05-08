@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2/05/2021 09:42:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooperativajsf.entity.Coop$Tipomovimiento" table="COOP$_TIPOMOVIMIENTO" schema="SYSTEM" optimistic-lock="version">
+        <id name="idtipomovimiento" type="big_decimal">
+            <column name="IDTIPOMOVIMIENTO" precision="22" scale="0" />
+            <generator class="sequence" >
+           <param name="sequence">AutoIdTipoMovimiento</param>
+            </generator>
+        </id>
+        <property name="descripcion" type="string">
+            <column name="DESCRIPCION" length="15" />
+        </property>
+        <set name="coop$Movimientos" table="COOP$_MOVIMIENTO" inverse="true" lazy="true" fetch="join">
+            <key>
+                <column name="IDTIPOMOVIMIENTO" precision="22" scale="0" />
+            </key>
+            <one-to-many class="com.cooperativajsf.entity.Coop$Movimiento" />
+        </set>
+    </class>
+</hibernate-mapping>

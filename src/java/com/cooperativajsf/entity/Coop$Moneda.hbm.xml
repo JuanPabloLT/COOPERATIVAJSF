@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2/05/2021 09:42:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooperativajsf.entity.Coop$Moneda" table="COOP$_MONEDA" schema="SYSTEM" optimistic-lock="version">
+        <id name="idmoneda" type="big_decimal">
+            <column name="IDMONEDA" precision="22" scale="0" />
+            <generator class="sequence" >
+           <param name="sequence">AutoIdMoneda</param>
+            </generator>
+        </id>
+        <property name="descripcion" type="string">
+            <column name="DESCRIPCION" length="5" />
+        </property>
+        <set name="coop$Cuentas" table="COOP$_CUENTA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="IDMONEDA" precision="22" scale="0" />
+            </key>
+            <one-to-many class="com.cooperativajsf.entity.Coop$Cuenta" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2/05/2021 09:42:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooperativajsf.entity.Coop$Razonsocial" table="COOP$_RAZONSOCIAL" schema="SYSTEM" optimistic-lock="version">
+        <id name="idrazonsocial" type="big_decimal">
+            <column name="IDRAZONSOCIAL" precision="22" scale="0" />
+            <generator class="sequence" >
+           <param name="sequence">AutoIdRazonSocial</param>
+            </generator>
+        </id>
+        <property name="descripcion" type="string">
+            <column name="DESCRIPCION" length="100" />
+        </property>
+        <set name="coop$Personajuridicas" table="COOP$_PERSONAJURIDICA" inverse="true" lazy="true" fetch="join">
+            <key>
+                <column name="IDRAZONSOCIAL" precision="22" scale="0" />
+            </key>
+            <one-to-many class="com.cooperativajsf.entity.Coop$Personajuridica" />
+        </set>
+    </class>
+</hibernate-mapping>

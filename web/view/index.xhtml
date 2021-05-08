@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>BIENVENIDO COOPERATIVA NN</title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+            <p:growl id="mensaje" autoUpdate="false" severity="info, fatal" showSummary="false" showDetail="true"/>
+
+
+            <h:panelGroup id="tipopersonaselection">
+                <p:fieldset legend="Ingresar a la plataforma">
+
+                    <h:panelGrid columns="3" id="pgnatural">
+
+
+                        <p:outputLabel for="documento" value="Documento"/>
+                        <p:inputText id="documento" value="#{loginBean.login.documento}" required="true" requiredMessage="Debe ingresar documento"/>
+                        <p:message for="documento"/>
+                        <p:outputLabel for="clave1" value="Contraseña"/>
+                        <p:password id="clave1" value="#{loginBean.login.contrasena}"
+                                    required="true" requiredMessage="Debe ingresar contraseña"
+                                    validatorMessage="Ingrese una contraseña"
+                                    promptLabel="Ingrese contraseña"/>
+                        <p:message for="clave1"/>
+                        <h:column/>
+                        <p:commandButton icon="ui-icon-key" value="Iniciar sesión" 
+                                         update="mensaje,pgnatural"
+                                         action="#{loginBean.LoguearPersona()}"/>
+                    </h:panelGrid>
+                    <p:separator/>
+                    <p:button icon="ui-icon-add" outcome="registrar" value="Registrarme" />
+                </p:fieldset>
+            </h:panelGroup>
+
+
+
+        </h:form>
+    </h:body>
+</html>
+

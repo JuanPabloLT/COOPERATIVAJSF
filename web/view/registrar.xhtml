@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>REGISTRO PERSONA</title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+            <p:growl id="mensaje" autoUpdate="false" severity="info, fatal" showSummary="false" showDetail="true"/>
+            <p:fieldset legend="Datos personales">
+                <h:panelGrid columns="2" id="pgdatos">
+                    <p:outputLabel for="persona" value="Tipo de persona"/>
+                    <p:selectOneMenu id="persona" value="#{registrarBean.tipopersona}" required="true" requiredMessage="Debe seleccionar tipo de persona">
+                        <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
+                        <f:selectItem itemLabel="Persona natural" itemValue="N"/>
+                        <f:selectItem itemLabel="Persona juridica" itemValue="J"/>
+                        <f:ajax event="change" execute="@this" render="tipopersonaselection" />
+                    </p:selectOneMenu>
+                    <p:message for="persona"/>
+                </h:panelGrid>
+            </p:fieldset>
+
+            <h:panelGroup id="tipopersonaselection">
+                <p:fieldset legend="Datos persona natural" rendered="#{registrarBean.tipopersona eq 'N'}">
+
+                    <h:panelGrid columns="3" id="pgnatural">
+                        <p:outputLabel value="Tipo documento"/>
+                        <p:selectOneMenu id="tipodocumento" value="#{registrarBean.tipodocumento.idtipodocumento}" required="true" requiredMessage="Debe seleccionar tipo de documento">
+                            <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
+                            <f:selectItems value="#{registrarBean.listatipodocumento}"/>
+                        </p:selectOneMenu>
+                        <p:message for="tipodocumento"/>
+                        <p:outputLabel for="documento" value="Documento"/>
+                        <p:inputText id="documento" value="#{registrarBean.persona.documento}" required="true" requiredMessage="Debe ingresar documento"/>
+                        <p:message for="documento"/>
+                        <p:outputLabel for="rutp" value="RUT"/>
+                        <p:inputText id="rutp" value="#{registrarBean.persona.rut}" required="true" requiredMessage="Debe ingresar RUT"/>
+                        <p:message for="rutp"/>
+                        <p:outputLabel for="nombres" value="Nombres"/>
+                        <p:inputText id="nombres" value="#{registrarBean.personanatural.nombre}" required="true" requiredMessage="Debe ingresar nombres"/>
+                        <p:message for="nombres"/>
+                        <p:outputLabel for="apellidos" value="Apellidos"/>
+                        <p:inputText id="apellidos" value="#{registrarBean.personanatural.apellido}" required="true" requiredMessage="Debe ingresar apellidos"/>
+                        <p:message for="apellidos"/>
+                    </h:panelGrid>
+                </p:fieldset>
+
+
+                <p:fieldset legend="Datos persona juridica" rendered="#{registrarBean.tipopersona eq 'J'}">
+                    <h:panelGrid columns="3" id="pgjuridica">
+                        <p:outputLabel for="razonsocial" value="Razon social"/>
+                        <p:selectOneMenu id="razonsocial" value="#{registrarBean.razonsocial.idrazonsocial}" required="true" requiredMessage="Debe seleccionar razon social">
+                            <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
+                            <f:selectItems value="#{registrarBean.listatiporazonsocial}"/>
+                        </p:selectOneMenu>
+                        <p:message for="razonsocial"/>
+                        <p:outputLabel for="nit" value="NIT"/>
+                        <p:inputText id="nit" value="#{registrarBean.persona.documento}" required="true" requiredMessage="Debe ingresar NIT"/>
+                        <p:message for="nit"/>
+                        <p:outputLabel for="rutj" value="RUT"/>
+                        <p:inputText id="rutj" value="#{registrarBean.persona.rut}" required="true" requiredMessage="Debe ingresar RUT"/>
+                        <p:message for="rutj"/>
+                        <p:outputLabel for="anof" value="Año fundación"/>
+                        <p:inputText id="anof" value="#{registrarBean.personajuridica.anofundacion}" required="true" requiredMessage="Debe ingresar año fundacion"/> 
+                        <p:message for="anof"/>
+                    </h:panelGrid>
+                </p:fieldset>
+            </h:panelGroup>
+
+            <p:fieldset legend="Datos de la cuenta">
+                <h:panelGrid columns="3" id="pgcuenta">
+                    <p:outputLabel for="clave1" value="Contraseña"/>
+                    <p:password id="clave1" value="#{registrarBean.logueopersona.contrasena}" match="clave2" feedback="true" 
+                                required="true" requiredMessage="Debe ingresar contraseña"
+                                validatorMessage="Las contraseñas no coinciden"
+                                weakLabel="Debíl" strongLabel="Fuerte" goodLabel="Buena"
+                                promptLabel="Ingrese contraseña"/>
+                    <p:message for="clave1"/>
+                    <p:outputLabel for="clave2" value="Confirmar contraseña" />
+                    <p:password id="clave2" required="true" requiredMessage="Debe confirmar contraseña"/>
+                    <p:message for="clave2"/>
+                </h:panelGrid>
+            </p:fieldset>
+            <p:commandButton icon="iu-icon-check" value="Registrar" 
+                             update="pgdatos,pgnatural,pgjuridica,pgcuenta,mensaje"
+                             action="#{registrarBean.RegistrarPersona()}"/>
+            <p:button icon="ui-icon-add" outcome="index?faces-redirect=true" value="Cancelar" />
+        </h:form>
+    </h:body>
+</html>
